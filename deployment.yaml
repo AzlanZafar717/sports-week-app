@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sports-week-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sports-week
+  template:
+    metadata:
+      labels:
+        app: sports-week
+    spec:
+      containers:
+      - name: sports-week-app
+        image: sports-week-app:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3000
