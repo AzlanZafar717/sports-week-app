@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>University Sports Week 2026</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 50px; background: #f4f4f4; color: #333; }
+        .container { max-width: 600px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); }
+        input, button { width: 100%; padding: 10px; margin: 8px 0; box-sizing: border-box; }
+        button { background: #28a745; color: white; border: none; cursor: pointer; }
+        button:hover { background: #218838; }
+        ul { padding-left: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🏆 Sports Week Event Registration</h2>
+        <h3>Register a Team</h3>
+        <form id="regForm">
+            <input type="text" id="sport" placeholder="Sport Name (e.g., Cricket, Badminton)" required>
+            <input type="text" id="captain" placeholder="Team Captain Name" required>
+            <input type="text" id="department" placeholder="Department" required>
+            <button type="submit">Register Team</button>
+        </form>
+        <h3>Registered Events & Teams</h3>
+        <ul id="eventList"></ul>
+    </div>
+
+    <script>
+        async function fetchEvents() {
+            const res = await fetch('/api/events');
+            const data = await res.json();
+            const list = document.getElementById('eventList');
+            list.innerHTML = '';
+            data.forEach(e => {
+                const li = document.createElement('li');
+                li.textContent = `${e.sport} - Captain: ${e.captain} (${e.department})`;
+                list.appendChild(li);
+            });
+        }
+
+        document.getElementById('regForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await fetch('/api/events', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    sport: document.getElementById('sport').value,
+                    captain: document.getElementById('captain').value,
+                    department: document.getElementById('department').value
+                })
+            });
+            document.getElementById('regForm').reset();
+            fetchEvents();
+        });
+
+        fetchEvents();
+    </script>
+</body>
+</html>
