@@ -1,0 +1,12 @@
+{
+  "name": "sports-week-app",
+  "version": "1.0.0",
+  "description": "3-Tier Sports Week Event Management App",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
